@@ -28,7 +28,7 @@ if (process.env.NODE_ENV === 'production') {
         port: db.port || 5432,
         username: db.username || "postgres",
         password: db.password || "",
-        database: db.database || "mashi_coro",
+        database: db.database || "recipiary",
         synchronize: db.synchronize || false,
         logging: db.logging || false,
         entities: ["dist/**/*.entity{.ts,.js}"],
