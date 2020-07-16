@@ -3,6 +3,7 @@ import { Injectable, BadRequestException } from '@nestjs/common';
 import {UsersService} from "../users/users.service";
 import {JwtService} from "@nestjs/jwt";
 import { PasswordsHelper } from 'src/utils/passwords.helper';
+import {User} from "../database/entities/user.entity";
 
 export interface UserInterface {
     username: string;
@@ -11,14 +12,11 @@ export interface UserInterface {
 export interface JwtPayload {
     username: string;
 }
-export class User {
-    username: string;
-    password: string;
-}
 
 @Injectable()
 export class AuthService {
-    constructor(private usersService: UsersService, private jwtService: JwtService) {}
+    constructor(private usersService: UsersService,
+                private jwtService: JwtService) {}
 
     async login(data: UserInterface): Promise<{ accessToken, expiresIn }> {
         const user: User = await this.findByUsernameAndPass(data);
@@ -34,6 +32,10 @@ export class AuthService {
         }
 
         throw new BadRequestException('User with given credentials not found.');
+    }
+
+    async register(user: UserInterface): Promise<void> {
+        await this.usersService.register(user);
     }
 
     async findByUsernameAndPass(data: UserInterface): Promise<User> {
