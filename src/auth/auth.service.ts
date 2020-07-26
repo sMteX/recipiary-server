@@ -4,21 +4,15 @@ import {UsersService} from "../users/users.service";
 import {JwtService} from "@nestjs/jwt";
 import { PasswordsHelper } from 'src/utils/passwords.helper';
 import {User} from "../database/entities/user.entity";
-
-export interface UserInterface {
-    username: string;
-    password: string;
-}
-export interface JwtPayload {
-    username: string;
-}
+import {UserInterface} from "./interfaces/user";
+import {JwtPayload, LoginResult} from "./interfaces/jwt";
 
 @Injectable()
 export class AuthService {
     constructor(private usersService: UsersService,
                 private jwtService: JwtService) {}
 
-    async login(data: UserInterface): Promise<{ accessToken, expiresIn }> {
+    async login(data: UserInterface): Promise<LoginResult> {
         const user: User = await this.findByUsernameAndPass(data);
 
         if (user) {
