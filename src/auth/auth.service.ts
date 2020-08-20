@@ -13,6 +13,7 @@ export class AuthService {
                 private jwtService: JwtService) {}
 
     async login(data: UserInterface): Promise<LoginResult> {
+        console.log(`Trying to log in with ${data.username}:${data.password}`);
         const user: User = await this.findByUsernameAndPass(data);
 
         if (user) {
