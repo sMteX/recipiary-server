@@ -24,6 +24,25 @@ export class CategoryService {
         await this.categoryRepository.save(category);
     }
 
+    // TODO: addTree?
+
+    async createMore(categories: CategoryDTO[]) {
+        const categoryPromises = categories.map(async c => {
+            const category = new Category();
+            category.name = c.name;
+
+            if (c.parentId) {
+                const parent = await this.categoryRepository.findOne(c.parentId);
+                if (parent) {
+                    category.parent = parent;
+                }
+            }
+            return category;
+        });
+        const newCategories = await Promise.all(categoryPromises);
+        await this.categoryRepository.save(newCategories);
+    }
+
     async findById(id: number) {
         return await this.categoryRepository.findOne({
             where: {
@@ -34,7 +53,7 @@ export class CategoryService {
     }
 
     async getAll() {
-        return await this.categoryRepository.find(); // TODO: works?
+        return await this.categoryRepository.find({ relations: ['parent'] }); // TODO: works?
     }
 
     async update(newCategory: CategoryDTO) {

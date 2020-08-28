@@ -9,6 +9,8 @@ export class Category {
     @Column()
     name: string;
 
+    // TODO: photo? (or randomly picked from recipes in given category)
+
     @ManyToOne(type => Category, category => category.children, { onDelete: 'CASCADE' })
     parent: Category;
 
