@@ -17,6 +17,15 @@ export class IngredientService {
         await this.ingredientRepository.save(ingredient);
     }
 
+    async createMore(names: string[]) {
+        const ingredients = names.map(name => {
+            const ingredient = new Ingredient();
+            ingredient.name = name;
+            return ingredient;
+        });
+        await this.ingredientRepository.save(ingredients);
+    }
+
     async findById(id: number) {
         return await this.ingredientRepository.findOne(id);
     }
