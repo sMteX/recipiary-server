@@ -1,5 +1,5 @@
 import { Column, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { Recipe} from './recipe.entity';
+import { Recipe } from './recipe.entity';
 
 @Entity()
 export class Category {
@@ -9,7 +9,7 @@ export class Category {
     @Column()
     name: string;
 
-    @ManyToOne(type => Category, category => category.children)
+    @ManyToOne(type => Category, category => category.children, { onDelete: 'CASCADE' })
     parent: Category;
 
     @OneToMany(type => Category, category => category.parent)

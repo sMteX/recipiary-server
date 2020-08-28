@@ -17,9 +17,9 @@ export class RecipeIngredient {
     @Column()
     comment: string;
 
-    @ManyToOne(type => RecipePart, part => part.ingredients)
+    @ManyToOne(type => RecipePart, part => part.ingredients, { onDelete: 'CASCADE' })
     recipePart: RecipePart;
 
-    @ManyToOne(type => Ingredient, ingredient => ingredient.recipes)
+    @ManyToOne(type => Ingredient, ingredient => ingredient.recipes, { onDelete: 'CASCADE' })
     ingredient: Ingredient;
 }

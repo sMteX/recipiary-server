@@ -1,7 +1,7 @@
-import {MigrationInterface, QueryRunner} from "typeorm";
+import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class AddRecipeIngredientCategoryEntities1598643078989 implements MigrationInterface {
-    name = 'AddRecipeIngredientCategoryEntities1598643078989'
+export class AddEntitiesWithCascade1598645005143 implements MigrationInterface {
+    name = 'AddEntitiesWithCascade1598645005143'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE TABLE "step" ("id" SERIAL NOT NULL, "order" integer NOT NULL, "content" character varying NOT NULL, "recipeId" integer, CONSTRAINT "PK_70d386ace569c3d265e05db0cc7" PRIMARY KEY ("id"))`);
@@ -13,11 +13,11 @@ export class AddRecipeIngredientCategoryEntities1598643078989 implements Migrati
         await queryRunner.query(`CREATE TABLE "recipe_category" ("recipeId" integer NOT NULL, "categoryId" integer NOT NULL, CONSTRAINT "PK_d6a2dad2052866d7af741dafd49" PRIMARY KEY ("recipeId", "categoryId"))`);
         await queryRunner.query(`CREATE INDEX "IDX_8e2c8741a606a3eb15302bed70" ON "recipe_category" ("recipeId") `);
         await queryRunner.query(`CREATE INDEX "IDX_a94ab495765ad778b082503167" ON "recipe_category" ("categoryId") `);
-        await queryRunner.query(`ALTER TABLE "step" ADD CONSTRAINT "FK_e50600a62b8ece3b996d58331f4" FOREIGN KEY ("recipeId") REFERENCES "recipe"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE "recipe_ingredient" ADD CONSTRAINT "FK_84fa6390dd3b5c1adf4cb19b5c0" FOREIGN KEY ("recipePartId") REFERENCES "recipe_part"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE "recipe_ingredient" ADD CONSTRAINT "FK_2879f9317daa26218b5915147e7" FOREIGN KEY ("ingredientId") REFERENCES "ingredient"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE "recipe_part" ADD CONSTRAINT "FK_99de7a1d8d61e9ede4316229b4e" FOREIGN KEY ("recipeId") REFERENCES "recipe"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE "category" ADD CONSTRAINT "FK_d5456fd7e4c4866fec8ada1fa10" FOREIGN KEY ("parentId") REFERENCES "category"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "step" ADD CONSTRAINT "FK_e50600a62b8ece3b996d58331f4" FOREIGN KEY ("recipeId") REFERENCES "recipe"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "recipe_ingredient" ADD CONSTRAINT "FK_84fa6390dd3b5c1adf4cb19b5c0" FOREIGN KEY ("recipePartId") REFERENCES "recipe_part"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "recipe_ingredient" ADD CONSTRAINT "FK_2879f9317daa26218b5915147e7" FOREIGN KEY ("ingredientId") REFERENCES "ingredient"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "recipe_part" ADD CONSTRAINT "FK_99de7a1d8d61e9ede4316229b4e" FOREIGN KEY ("recipeId") REFERENCES "recipe"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "category" ADD CONSTRAINT "FK_d5456fd7e4c4866fec8ada1fa10" FOREIGN KEY ("parentId") REFERENCES "category"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "recipe_category" ADD CONSTRAINT "FK_8e2c8741a606a3eb15302bed707" FOREIGN KEY ("recipeId") REFERENCES "recipe"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "recipe_category" ADD CONSTRAINT "FK_a94ab495765ad778b0825031675" FOREIGN KEY ("categoryId") REFERENCES "category"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
     }

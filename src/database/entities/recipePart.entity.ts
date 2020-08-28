@@ -13,7 +13,7 @@ export class RecipePart {
     @Column()
     order: number; // can be 0 based, maybe doesn't even matter
 
-    @ManyToOne(type => Recipe, recipe => recipe.parts)
+    @ManyToOne(type => Recipe, recipe => recipe.parts, { onDelete: 'CASCADE' })
     recipe: Recipe;
 
     @OneToMany(type => RecipeIngredient, pair => pair.recipePart)

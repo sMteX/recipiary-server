@@ -1,5 +1,5 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { Recipe} from './recipe.entity';
+import { Recipe } from './recipe.entity';
 
 @Entity()
 export class Step {
@@ -14,6 +14,6 @@ export class Step {
 
     // TODO: photos
 
-    @ManyToOne(type => Recipe, recipe => recipe.steps)
+    @ManyToOne(type => Recipe, recipe => recipe.steps, { onDelete: 'CASCADE' })
     recipe: Recipe;
 }
